@@ -31,7 +31,18 @@ function ReportList({ userId }: { userId: string }) {
   const [reports, setReports] = useState<DiagnosisReport[]>([]);
 
   useEffect(() => {
-    setReports(JSON.parse(localStorage.getItem(reportsKey(userId)) || "[]"));
+    const localReports = JSON.parse(localStorage.getItem(reportsKey(userId)) || "[]") as DiagnosisReport[];
+    setReports(localReports);
+
+    fetch(`/api/reports?userId=${encodeURIComponent(userId)}`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data: { reports?: DiagnosisReport[] } | null) => {
+        if (data?.reports?.length) {
+          setReports(data.reports);
+          localStorage.setItem(reportsKey(userId), JSON.stringify(data.reports));
+        }
+      })
+      .catch(() => {});
   }, [userId]);
 
   return (

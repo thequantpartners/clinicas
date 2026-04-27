@@ -32,7 +32,19 @@ function ReportDetail({ userId }: { userId: string }) {
 
   useEffect(() => {
     const reports = JSON.parse(localStorage.getItem(reportsKey(userId)) || "[]") as DiagnosisReport[];
-    setReport(reports.find((item) => item.id === params.id) ?? null);
+    const localReport = reports.find((item) => item.id === params.id) ?? null;
+    setReport(localReport);
+
+    fetch(`/api/reports?userId=${encodeURIComponent(userId)}`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data: { reports?: DiagnosisReport[] } | null) => {
+        const remoteReport = data?.reports?.find((item) => item.id === params.id);
+        if (remoteReport) {
+          setReport(remoteReport);
+          localStorage.setItem(reportsKey(userId), JSON.stringify(data?.reports ?? []));
+        }
+      })
+      .catch(() => {});
   }, [params.id, userId]);
 
   if (!report) {

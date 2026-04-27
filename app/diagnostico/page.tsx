@@ -16,10 +16,18 @@ import {
 } from "@/lib/diagnosis";
 import { downloadReportPdf } from "@/lib/download-report";
 
-function saveReport(report: DiagnosisReport) {
+async function saveReport(report: DiagnosisReport) {
   const key = reportsKey(report.userId);
   const current = JSON.parse(localStorage.getItem(key) || "[]") as DiagnosisReport[];
   localStorage.setItem(key, JSON.stringify([report, ...current]));
+
+  try {
+    await fetch("/api/reports", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(report),
+    });
+  } catch {}
 }
 
 function formatMoney(value: number) {
@@ -57,7 +65,7 @@ function DiagnosisForm({ firstName, userId }: { firstName: string; userId: strin
     }
 
     const generated = scoreDiagnosis(answers, userId);
-    saveReport(generated);
+    void saveReport(generated);
     setReport(generated);
   }
 
