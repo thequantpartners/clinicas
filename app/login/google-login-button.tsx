@@ -66,11 +66,7 @@ export function GoogleLoginButton() {
       className="flex min-h-[62px] w-full items-center justify-center gap-3 rounded-[22px] bg-[#ff9f0a] px-5 text-[18px] font-extrabold text-white shadow-[0_16px_35px_rgba(255,159,10,0.30)] ring-2 ring-white transition active:scale-[0.99] disabled:opacity-70 focus:outline-none focus:ring-4 focus:ring-[#ff9f0a]/30"
     >
       <GoogleIcon />
-      {loading
-        ? "Abriendo Google..."
-        : configured
-          ? "Continuar con Google"
-          : "Configura Firebase"}
+      {loading ? "Abriendo Google..." : "Inicia con Google"}
       <ArrowIcon />
     </button>
   );
