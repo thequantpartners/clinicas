@@ -5,6 +5,7 @@ import { AppFrame } from "../app-frame";
 import { AppMenu } from "../app-menu";
 import { AuthGate } from "../auth-gate";
 import { type DiagnosisReport, reportsKey, whatsappFreeUrl, whatsappProUrl } from "@/lib/diagnosis";
+import { downloadReportPdf } from "@/lib/download-report";
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("es-PE", {
@@ -88,9 +89,12 @@ function ReportList({ userId }: { userId: string }) {
                   impacto mensual estimado
                 </p>
               </div>
-              <div className="mt-4 grid grid-cols-2 gap-2">
-                <a href={whatsappFreeUrl} target="_blank" rel="noreferrer" className="flex min-h-12 items-center justify-center rounded-[18px] bg-[#0ea5e9] px-3 text-center text-xs font-black text-white">
-                  Recuperar fuga
+              <div className="mt-4 grid grid-cols-3 gap-2">
+                <button type="button" onClick={() => downloadReportPdf(report, "free")} className="flex min-h-12 items-center justify-center rounded-[18px] bg-[#0ea5e9] px-3 text-center text-xs font-black text-white">
+                  PDF
+                </button>
+                <a href={whatsappFreeUrl} target="_blank" rel="noreferrer" className="flex min-h-12 items-center justify-center rounded-[18px] bg-white px-3 text-center text-xs font-black text-[#075985] ring-1 ring-sky-900/10">
+                  Recuperar
                 </a>
                 <a href={whatsappProUrl} target="_blank" rel="noreferrer" className="flex min-h-12 items-center justify-center rounded-[18px] bg-[#075985] px-3 text-center text-xs font-black text-white">
                   Ver PRO

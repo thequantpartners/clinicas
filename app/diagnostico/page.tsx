@@ -14,6 +14,7 @@ import {
   whatsappFreeUrl,
   whatsappProUrl,
 } from "@/lib/diagnosis";
+import { downloadReportPdf } from "@/lib/download-report";
 
 function saveReport(report: DiagnosisReport) {
   const key = reportsKey(report.userId);
@@ -108,9 +109,14 @@ function DiagnosisForm({ firstName, userId }: { firstName: string; userId: strin
           </a>
         </section>
 
-        <a href={whatsappFreeUrl} target="_blank" rel="noreferrer" className="mt-4 flex min-h-14 items-center justify-center rounded-[22px] bg-[#0ea5e9] px-5 text-base font-black text-white shadow-[0_14px_28px_rgba(14,165,233,0.28)]">
-          Quiero recuperar esta fuga
-        </a>
+        <div className="mt-4 grid gap-3">
+          <button type="button" onClick={() => downloadReportPdf(report, "free")} className="flex min-h-14 items-center justify-center rounded-[22px] bg-[#0ea5e9] px-5 text-base font-black text-white shadow-[0_14px_28px_rgba(14,165,233,0.28)]">
+            Descargar PDF FREE
+          </button>
+          <a href={whatsappFreeUrl} target="_blank" rel="noreferrer" className="flex min-h-14 items-center justify-center rounded-[22px] bg-white px-5 text-base font-black text-[#075985] shadow-[0_10px_22px_rgba(23,23,23,0.06)]">
+            Quiero recuperar esta fuga
+          </a>
+        </div>
 
         <AppMenu active="diagnostico" />
       </AppFrame>
