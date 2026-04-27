@@ -382,13 +382,15 @@ export default function LandingPage() {
 
         <Link
           href="/login"
-          className="animate-soft-pulse mt-5 flex min-h-[58px] items-center justify-center gap-3 rounded-[21px] bg-[#0ea5e9] px-6 text-[18px] font-extrabold text-white shadow-[0_16px_35px_rgba(14,165,233,0.30)] ring-2 ring-white transition active:scale-[0.99] focus:outline-none focus:ring-4 focus:ring-[#0ea5e9]/30"
+          className="animate-soft-pulse mt-5 grid min-h-[58px] grid-cols-[32px_1fr_32px] items-center gap-2 rounded-[21px] bg-[#0ea5e9] px-5 text-white shadow-[0_16px_35px_rgba(14,165,233,0.30)] ring-2 ring-white transition active:scale-[0.99] focus:outline-none focus:ring-4 focus:ring-[#0ea5e9]/30"
         >
-          <span className="text-2xl" aria-hidden="true">
+          <span className="text-center text-2xl" aria-hidden="true">
             ✨
           </span>
-          Detectar mis fugas gratis
-          <ArrowIcon className="ml-auto size-8" />
+          <span className="truncate text-center text-[16px] font-extrabold min-[390px]:text-[18px]">
+            Detectar mis fugas gratis
+          </span>
+          <ArrowIcon className="size-8" />
         </Link>
 
         <p className="mt-3 text-center text-sm font-extrabold text-[#075985]">
@@ -463,10 +465,12 @@ export default function LandingPage() {
 
           <Link
             href="/login"
-            className="animate-soft-pulse mt-3 flex min-h-[58px] items-center justify-center gap-3 rounded-[21px] bg-[#0ea5e9] px-6 text-[17px] font-extrabold text-white shadow-[0_16px_35px_rgba(14,165,233,0.30)] ring-2 ring-white transition active:scale-[0.99] focus:outline-none focus:ring-4 focus:ring-[#0ea5e9]/30"
+            className="animate-soft-pulse mt-3 grid min-h-[58px] grid-cols-[1fr_32px] items-center gap-2 rounded-[21px] bg-[#0ea5e9] px-5 text-white shadow-[0_16px_35px_rgba(14,165,233,0.30)] ring-2 ring-white transition active:scale-[0.99] focus:outline-none focus:ring-4 focus:ring-[#0ea5e9]/30"
           >
-            Ver cuánto estoy perdiendo
-            <ArrowIcon className="ml-auto size-8" />
+            <span className="truncate text-center text-[16px] font-extrabold min-[390px]:text-[17px]">
+              Ver cuánto estoy perdiendo
+            </span>
+            <ArrowIcon className="size-8" />
           </Link>
         </section>
 
