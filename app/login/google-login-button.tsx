@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { signInWithRedirect } from "firebase/auth";
+import { signInWithPopup, signInWithRedirect } from "firebase/auth";
+import { useRouter } from "next/navigation";
 import {
   getFirebaseAuth,
   getGoogleProvider,
@@ -46,6 +47,7 @@ function ArrowIcon() {
 }
 
 export function GoogleLoginButton() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const configured = hasFirebaseConfig();
 
@@ -55,7 +57,15 @@ export function GoogleLoginButton() {
     }
 
     setLoading(true);
-    await signInWithRedirect(getFirebaseAuth(), getGoogleProvider());
+    const auth = getFirebaseAuth();
+    const provider = getGoogleProvider();
+
+    try {
+      await signInWithPopup(auth, provider);
+      router.replace("/diagnostico");
+    } catch {
+      await signInWithRedirect(auth, provider);
+    }
   }
 
   return (
