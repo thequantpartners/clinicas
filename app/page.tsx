@@ -376,7 +376,7 @@ export default function LandingPage() {
             <span className="block text-[#075985]">S/2,500+ al mes</span>
           </h1>
           <p className="mt-3 text-[17px] font-medium leading-[1.38] text-[#5a5a63]">
-            En pacientes que preguntan y no compran, citas que no se concretan y recompras que nadie sigue antes de invertir más en publicidad.
+            Detecta tu fuga principal gratis y empieza a medir cada semana dónde sigues perdiendo pacientes, citas e ingresos.
           </p>
         </section>
 
@@ -394,7 +394,7 @@ export default function LandingPage() {
         </Link>
 
         <p className="mt-3 text-center text-sm font-extrabold text-[#075985]">
-          Gratis · 8 min · Sin compromiso
+          Diagnóstico FREE + 7 días de Recovery Control
         </p>
 
         <section className="animate-fade-up mt-5 grid grid-cols-3 rounded-[24px] border border-black/5 bg-white/82 px-5 py-3 shadow-[0_18px_35px_rgba(23,23,23,0.10)] [animation-delay:160ms]">
@@ -463,6 +463,28 @@ export default function LandingPage() {
             </div>
           </div>
 
+          <div className="mt-3 rounded-[22px] bg-white/92 p-4 shadow-[0_12px_26px_rgba(23,23,23,0.06)] ring-1 ring-sky-900/5">
+            <p className="text-sm font-black uppercase tracking-[0.08em] text-[#075985]">
+              No es solo un PDF
+            </p>
+            <h3 className="mt-2 text-[22px] font-black leading-tight">
+              Recovery Control mide tus fugas cada semana.
+            </h3>
+            <div className="mt-3 grid gap-2">
+              {[
+                "Leads sin respuesta",
+                "Citas no asistidas",
+                "Ventas no cerradas",
+                "Fuga diaria estimada",
+                "Prioridad de acción",
+              ].map((item) => (
+                <div key={item} className="rounded-[16px] bg-[#e0f2fe] px-4 py-2 text-sm font-black text-[#075985]">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+
           <Link
             href="/login"
             className="animate-soft-pulse mt-3 grid min-h-[58px] grid-cols-[1fr_32px] items-center gap-2 rounded-[21px] bg-[#0ea5e9] px-5 text-white shadow-[0_16px_35px_rgba(14,165,233,0.30)] ring-2 ring-white transition active:scale-[0.99] focus:outline-none focus:ring-4 focus:ring-[#0ea5e9]/30"
@@ -475,8 +497,8 @@ export default function LandingPage() {
         </section>
 
         <p className="animate-fade-up mt-5 text-center text-[24px] font-black leading-tight text-[#075985] [animation-delay:320ms]">
-          Antes de vender más,
-          <span className="block text-[#101112]">recupera lo que ya pierdes.</span>
+          Diagnostica una vez.
+          <span className="block text-[#101112]">Controla tus fugas cada semana.</span>
         </p>
 
       </section>
