@@ -35,6 +35,12 @@ export const whatsappFreeUrl =
 export const whatsappProUrl =
   "https://wa.me/51924464410?text=Hola%20Quant%20Partners%2C%20vi%20mi%20diagn%C3%B3stico%20PRO%20y%20quiero%20implementar%20el%20plan%20completo%20para%20recuperar%20ingresos%20perdidos.";
 
+export const proPrice = {
+  monthly: 49,
+  oneTime: 149,
+  currency: "USD",
+};
+
 export const questions: Question[] = [
   {
     id: "businessName",

@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.104.1",
     "@types/pdfkit": "^0.17.6",
     "firebase": "^12.12.1",
     "next": "^16.2.4",
