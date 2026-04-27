@@ -10,6 +10,7 @@ import {
   createDailyMetric,
   metricsKey,
 } from "@/lib/control";
+import { freeControlLimit } from "@/lib/diagnosis";
 
 const fields: Array<{ id: keyof DailyMetricsInput; label: string }> = [
   { id: "leadsNew", label: "Leads nuevos" },
@@ -71,8 +72,12 @@ function ControlDashboard({ userId }: { userId: string }) {
     [week],
   );
   const today = metrics[0]?.date === new Date().toISOString().slice(0, 10) ? metrics[0] : null;
+  const isLocked = metrics.length >= freeControlLimit && !today;
+  const remainingFreeDays = Math.max(0, freeControlLimit - metrics.length);
 
   async function handleSubmit() {
+    if (isLocked) return;
+
     const metric = createDailyMetric(userId, form);
     saveLocal(userId, metric);
     setMetrics((current) => [metric, ...current.filter((item) => item.date !== metric.date)]);
@@ -108,6 +113,27 @@ function ControlDashboard({ userId }: { userId: string }) {
         </p>
       </section>
 
+      {isLocked ? (
+        <section className="mt-4 rounded-[26px] bg-white/92 p-5 shadow-[0_18px_35px_rgba(23,23,23,0.08)] ring-1 ring-sky-900/5">
+          <p className="text-sm font-black text-[#075985]">Prueba FREE completa</p>
+          <h2 className="mt-2 text-[24px] font-black leading-tight">
+            Ya usaste tus {freeControlLimit} días de control.
+          </h2>
+          <p className="mt-3 text-sm font-medium leading-5 text-[#5a5a63]">
+            Desbloquea Recovery Control para seguir midiendo fugas y generar reportes mensuales.
+          </p>
+          <a href="/upgrade" className="mt-5 flex min-h-14 items-center justify-center rounded-[22px] bg-[#0ea5e9] px-5 text-base font-black text-white shadow-[0_14px_28px_rgba(14,165,233,0.28)]">
+            Activar control mensual
+          </a>
+        </section>
+      ) : (
+        <section className="mt-4 rounded-[22px] bg-white/70 px-4 py-3 shadow-[0_10px_22px_rgba(23,23,23,0.05)] ring-1 ring-sky-900/5">
+          <p className="text-sm font-black text-[#075985]">
+            FREE: {remainingFreeDays} registros disponibles
+          </p>
+        </section>
+      )}
+
       {today ? (
         <section className="mt-4 rounded-[24px] bg-white/92 p-4 shadow-[0_12px_26px_rgba(23,23,23,0.07)] ring-1 ring-sky-900/5">
           <p className="text-sm font-black text-[#075985]">Hoy</p>
@@ -118,7 +144,7 @@ function ControlDashboard({ userId }: { userId: string }) {
         </section>
       ) : null}
 
-      <section className="mt-5 rounded-[28px] bg-white/92 p-5 shadow-[0_18px_35px_rgba(23,23,23,0.08)] ring-1 ring-sky-900/5">
+      <section className={["mt-5 rounded-[28px] bg-white/92 p-5 shadow-[0_18px_35px_rgba(23,23,23,0.08)] ring-1 ring-sky-900/5", isLocked ? "opacity-55" : ""].join(" ")}>
         <p className="text-sm font-black uppercase tracking-[0.08em] text-[#075985]">
           Registro de hoy
         </p>
@@ -141,8 +167,8 @@ function ControlDashboard({ userId }: { userId: string }) {
             </label>
           ))}
         </div>
-        <button type="button" onClick={handleSubmit} className="mt-5 flex min-h-14 w-full items-center justify-center rounded-[22px] bg-[#0ea5e9] px-5 text-base font-black text-white shadow-[0_14px_28px_rgba(14,165,233,0.28)]">
-          Guardar control de hoy
+        <button type="button" onClick={handleSubmit} disabled={isLocked} className="mt-5 flex min-h-14 w-full items-center justify-center rounded-[22px] bg-[#0ea5e9] px-5 text-base font-black text-white shadow-[0_14px_28px_rgba(14,165,233,0.28)] disabled:opacity-50">
+          {isLocked ? "Control bloqueado" : "Guardar control de hoy"}
         </button>
       </section>
 

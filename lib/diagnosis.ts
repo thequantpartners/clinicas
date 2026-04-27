@@ -41,6 +41,8 @@ export const proPrice = {
   currency: "USD",
 };
 
+export const freeControlLimit = 7;
+
 export const questions: Question[] = [
   {
     id: "businessName",

@@ -118,6 +118,9 @@ function DiagnosisForm({ firstName, userId }: { firstName: string; userId: strin
         </section>
 
         <div className="mt-4 grid gap-3">
+          <a href="/control" className="flex min-h-14 items-center justify-center rounded-[22px] bg-[#075985] px-5 text-base font-black text-white shadow-[0_14px_28px_rgba(7,89,133,0.24)]">
+            Activar control semanal
+          </a>
           <button type="button" onClick={() => downloadReportPdf(report, "free")} className="flex min-h-14 items-center justify-center rounded-[22px] bg-[#0ea5e9] px-5 text-base font-black text-white shadow-[0_14px_28px_rgba(14,165,233,0.28)]">
             Descargar PDF FREE
           </button>
