@@ -45,12 +45,6 @@ export const freeControlLimit = 7;
 
 export const questions: Question[] = [
   {
-    id: "businessName",
-    label: "Nombre de la clínica",
-    helper: "Usaremos esto para nombrar tu reporte.",
-    type: "text",
-  },
-  {
     id: "weeklyLeads",
     label: "¿Cuántos pacientes consultan por semana?",
     helper: "Incluye WhatsApp, Instagram, llamadas y referidos.",

@@ -15,6 +15,7 @@ import {
   whatsappProUrl,
 } from "@/lib/diagnosis";
 import { downloadReportPdf } from "@/lib/download-report";
+import { loadClinicProfile } from "@/lib/profile";
 
 async function saveReport(report: DiagnosisReport) {
   const key = reportsKey(report.userId);
@@ -49,6 +50,7 @@ function DiagnosisForm({ firstName, userId }: { firstName: string; userId: strin
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [report, setReport] = useState<DiagnosisReport | null>(null);
+  const profile = loadClinicProfile(userId);
   const question = questions[step];
   const progress = Math.round(((step + 1) / questions.length) * 100);
   const canContinue = answers[question.id] !== undefined && String(answers[question.id]).trim() !== "";
@@ -64,7 +66,14 @@ function DiagnosisForm({ firstName, userId }: { firstName: string; userId: strin
       return;
     }
 
-    const generated = scoreDiagnosis(answers, userId);
+    const generated = scoreDiagnosis(
+      {
+        ...answers,
+        businessName: profile.clinicName || "Clínica",
+        avgTicket: answers.avgTicket || profile.avgTicket,
+      },
+      userId,
+    );
     void saveReport(generated);
     setReport(generated);
   }
@@ -144,9 +153,15 @@ function DiagnosisForm({ firstName, userId }: { firstName: string; userId: strin
           Detectemos dónde se escapa tu dinero.
         </h1>
         <p className="mt-4 text-[16px] font-medium leading-6 text-[#5a5a63]">
-          Responde con aproximados. El diagnóstico prioriza fugas por impacto mensual.
+          Responde con aproximados. {profile.clinicName ? `Usaremos el perfil de ${profile.clinicName}.` : "Puedes guardar el nombre de tu clínica en Cuenta."}
         </p>
       </header>
+
+      {!profile.clinicName ? (
+        <a href="/cuenta" className="mt-5 rounded-[22px] bg-white/92 px-4 py-3 text-sm font-black text-[#075985] shadow-[0_10px_22px_rgba(23,23,23,0.06)] ring-1 ring-sky-900/5">
+          Guardar perfil de clínica una sola vez
+        </a>
+      ) : null}
 
       <section className="mt-6 rounded-[26px] bg-[#075985] p-4 text-white shadow-[0_18px_35px_rgba(7,89,133,0.22)]">
         <p className="text-sm font-bold text-white/75">Diagnóstico en curso</p>

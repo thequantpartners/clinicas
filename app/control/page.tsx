@@ -11,6 +11,7 @@ import {
   metricsKey,
 } from "@/lib/control";
 import { freeControlLimit } from "@/lib/diagnosis";
+import { loadClinicProfile } from "@/lib/profile";
 
 const fields: Array<{ id: keyof DailyMetricsInput; label: string }> = [
   { id: "leadsNew", label: "Leads nuevos" },
@@ -52,6 +53,9 @@ function ControlDashboard({ userId }: { userId: string }) {
   });
 
   useEffect(() => {
+    const profile = loadClinicProfile(userId);
+    setForm((current) => ({ ...current, avgTicket: profile.avgTicket || current.avgTicket }));
+
     const localMetrics = JSON.parse(localStorage.getItem(metricsKey(userId)) || "[]") as DailyMetric[];
     setMetrics(localMetrics);
 
