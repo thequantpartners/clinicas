@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppFrame } from "../app-frame";
 import { AppMenu } from "../app-menu";
 import { AuthGate } from "../auth-gate";
@@ -15,7 +15,7 @@ import {
   whatsappProUrl,
 } from "@/lib/diagnosis";
 import { downloadReportPdf } from "@/lib/download-report";
-import { loadClinicProfile } from "@/lib/profile";
+import { type ClinicProfile, loadClinicProfile, saveClinicProfile } from "@/lib/profile";
 
 async function saveReport(report: DiagnosisReport) {
   const key = reportsKey(report.userId);
@@ -50,10 +50,22 @@ function DiagnosisForm({ firstName, userId }: { firstName: string; userId: strin
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [report, setReport] = useState<DiagnosisReport | null>(null);
-  const profile = loadClinicProfile(userId);
+  const [profile, setProfile] = useState<ClinicProfile>(() => loadClinicProfile(userId));
   const question = questions[step];
   const progress = Math.round(((step + 1) / questions.length) * 100);
   const canContinue = answers[question.id] !== undefined && String(answers[question.id]).trim() !== "";
+
+  useEffect(() => {
+    fetch(`/api/profile?userId=${encodeURIComponent(userId)}`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data: { profile?: ClinicProfile | null } | null) => {
+        if (data?.profile) {
+          setProfile(data.profile);
+          saveClinicProfile(userId, data.profile);
+        }
+      })
+      .catch(() => {});
+  }, [userId]);
 
   function setAnswer(value: AnswerValue) {
     setAnswers((current) => ({ ...current, [question.id]: value }));

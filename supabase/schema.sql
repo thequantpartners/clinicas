@@ -44,3 +44,12 @@ create table if not exists public.daily_metrics (
 
 create index if not exists daily_metrics_user_date_idx
   on public.daily_metrics (user_id, date desc);
+
+create table if not exists public.clinic_profiles (
+  user_id text primary key,
+  clinic_name text not null default '',
+  category text not null default '',
+  city text not null default '',
+  avg_ticket integer not null default 700,
+  updated_at timestamptz not null default now()
+);

@@ -34,7 +34,18 @@ function AccountContent({ user, onLogout }: { user: User; onLogout: () => Promis
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    setProfile(loadClinicProfile(user.uid));
+    const localProfile = loadClinicProfile(user.uid);
+    setProfile(localProfile);
+
+    fetch(`/api/profile?userId=${encodeURIComponent(user.uid)}`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data: { profile?: ClinicProfile | null } | null) => {
+        if (data?.profile) {
+          setProfile(data.profile);
+          saveClinicProfile(user.uid, data.profile);
+        }
+      })
+      .catch(() => {});
   }, [user.uid]);
 
   function updateProfile(field: keyof ClinicProfile, value: string | number) {
@@ -45,6 +56,12 @@ function AccountContent({ user, onLogout }: { user: User; onLogout: () => Promis
   function handleSaveProfile() {
     saveClinicProfile(user.uid, profile);
     setSaved(true);
+
+    fetch("/api/profile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: user.uid, profile }),
+    }).catch(() => {});
   }
 
   return (
