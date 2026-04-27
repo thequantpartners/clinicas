@@ -34,9 +34,9 @@ export function AuthGate({ children }: AuthGateProps) {
 
   if (!hasFirebaseConfig()) {
     return (
-      <main className="grid min-h-screen place-items-center bg-mist px-6 text-center text-ink">
-        <p className="max-w-[280px] text-sm font-bold text-pine">
-          Configura Firebase en `.env.local` para iniciar sesion.
+      <main className="grid min-h-screen place-items-center bg-[#eef8ff] px-6 text-center text-[#101112]">
+        <p className="max-w-[280px] text-sm font-bold text-[#075985]">
+          Configura Firebase en `.env.local` para iniciar sesión.
         </p>
       </main>
     );
@@ -44,8 +44,8 @@ export function AuthGate({ children }: AuthGateProps) {
 
   if (checking || !user) {
     return (
-      <main className="grid min-h-screen place-items-center bg-mist text-ink">
-        <p className="text-sm font-bold text-pine">Validando acceso...</p>
+      <main className="grid min-h-screen place-items-center bg-[#eef8ff] text-[#101112]">
+        <p className="text-sm font-bold text-[#075985]">Validando acceso...</p>
       </main>
     );
   }

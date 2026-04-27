@@ -1,10 +1,8 @@
 "use client";
 
-import { signOut } from "firebase/auth";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { getFirebaseAuth } from "@/lib/firebase";
-import { AuthGate } from "./auth-gate";
+import { AppFrame } from "../app-frame";
+import { AppMenu } from "../app-menu";
+import { AuthGate } from "../auth-gate";
 
 const steps = [
   {
@@ -25,60 +23,6 @@ const steps = [
   },
 ];
 
-function TargetIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="size-7" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="7.2" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="12" cy="12" r="2.2" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
-    </svg>
-  );
-}
-
-function ChartIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="size-7" fill="none" aria-hidden="true">
-      <path d="M5 20V9M12 20V4M19 20v-8" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
-      <path d="M3 20h18" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
-    </svg>
-  );
-}
-
-function AccountIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="size-7" fill="none" aria-hidden="true">
-      <circle cx="12" cy="8" r="3.2" stroke="currentColor" strokeWidth="1.9" />
-      <path d="M5.2 20c.8-3.3 3.2-5 6.8-5s6 1.7 6.8 5H5.2Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.9" />
-    </svg>
-  );
-}
-
-function AppMenu() {
-  const router = useRouter();
-
-  async function handleLogout() {
-    await signOut(getFirebaseAuth());
-    router.replace("/");
-  }
-
-  return (
-    <nav className="fixed bottom-3 left-1/2 z-50 grid h-[66px] w-[calc(100%-44px)] max-w-[386px] -translate-x-1/2 grid-cols-3 rounded-[28px] bg-white p-1.5 shadow-[0_20px_45px_rgba(7,89,133,0.18)] ring-1 ring-sky-900/10">
-      <Link href="/diagnostico" className="flex flex-col items-center justify-center rounded-[22px] bg-[#e0f2fe] text-[#075985]" aria-label="Diagnostico">
-        <TargetIcon />
-        <span className="text-xs font-black">Diagnóstico</span>
-      </Link>
-      <a className="flex flex-col items-center justify-center text-[#34343a]" aria-label="Reporte">
-        <ChartIcon />
-        <span className="text-xs font-semibold">Reporte</span>
-      </a>
-      <button type="button" onClick={handleLogout} className="flex flex-col items-center justify-center text-[#34343a]" aria-label="Cuenta">
-        <AccountIcon />
-        <span className="text-xs font-semibold">Cuenta</span>
-      </button>
-    </nav>
-  );
-}
-
 export default function DiagnosticoPage() {
   return (
     <AuthGate>
@@ -86,8 +30,7 @@ export default function DiagnosticoPage() {
         const firstName = user.displayName?.split(" ")[0] ?? "cliente";
 
         return (
-          <main className="min-h-screen bg-[#f6f4ef] text-[#101112]">
-            <section className="mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-[radial-gradient(circle_at_62%_18%,rgba(14,165,233,0.18),transparent_30%),linear-gradient(180deg,#f8fcff_0%,#eef8ff_100%)] px-5 pb-28 pt-7 shadow-[0_0_70px_rgba(23,23,23,0.08)]">
+          <AppFrame>
               <header>
                 <p className="inline-flex rounded-full bg-white/90 px-4 py-2 text-[15px] font-black tracking-normal text-[#075985] shadow-[0_10px_24px_rgba(7,89,133,0.10)] ring-1 ring-sky-900/5">
                   Hola, {firstName} · Paso 1 de 4
@@ -139,9 +82,8 @@ export default function DiagnosticoPage() {
                   Continuar diagnóstico
                 </button>
               </form>
-              <AppMenu />
-            </section>
-          </main>
+              <AppMenu active="diagnostico" />
+          </AppFrame>
         );
       }}
     </AuthGate>
